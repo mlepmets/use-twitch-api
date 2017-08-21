@@ -28,26 +28,24 @@ function get(url) {
 users.forEach((value, index, array) => {
   let status = '';
   let name = value;
-  let logo = '';
+  logo = '';
   let url = `https://www.twitch.tv/${value}`;
   container.innerHTML += ``;
-  get(userAPI + value)
+
+  get(userAPI + value).then(result => (logo = result.logo));
+
+  get(streamsAPI + value)
     .then(result => {
-      logo = result.logo;
+      if (result.stream === null) {
+        status = 'offline';
+      } else {
+        status = result.stream.channel.status;
+      }
     })
     .then(() => {
-      get(streamsAPI + value)
-        .then(result => {
-          if (result.stream === null) {
-            status = 'offline';
-          } else {
-            status = result.stream.channel.status;
-          }
-        }) // callback hell ???
-        .then(() => {
-          container.innerHTML += `<a href="${url}" class="${status !== 'offline'
-            ? 'online'
-            : status}">
+      container.innerHTML += `<a href="${url}" class="${status !== 'offline'
+        ? 'online'
+        : status}">
     <div class="logo">
       <img src="${logo}" alt="channel logo">
     </div>
@@ -56,39 +54,25 @@ users.forEach((value, index, array) => {
       <div class="status">${status}</div>
     </div>
     </a>`;
-        })
-        .then(() => {
-          offlineElements = document.getElementsByClassName('offline');
-          onlineElements = document.getElementsByClassName('online');
-
-          onlineFilter.addEventListener('click', e => {
-            showElements(onlineElements);
-            hideElements(offlineElements);
-          });
-          offlineFilter.addEventListener('click', e => {
-            showElements(onlineElements);
-            hideElements(offlineElements);
-          });
-          allFilter.addEventListener('click', e => {
-            showElements(onlineElements);
-            showElements(offlineElements);
-          });
-        });
     });
 });
+// online = document.querySelector('.online');
+// offlineFilter.addEventListener('click', () => {
+//   hideElements('online');
+// });
 
-const hideElements = elements => {
-  for (index = 0; index < elements.length; index++) {
-    if (!element.classList.contains('hide')) {
-      elements[i].classList.add('hide');
-    }
-  }
-};
+// const hideElements = elements => {
+//   for (index = 0; index < elements.length; index++) {
+//     if (!element.classList.contains('hide')) {
+//       elements[i].classList.add('hide');
+//     }
+//   }
+// };
 
-const showElements = elements => {
-  for (index = 0; index < elements.length; index++) {
-    if (element.classList.contains('hide')) {
-      elements[i].classList.remove('hide');
-    }
-  }
-};
+// const showElements = elements => {
+//   for (index = 0; index < elements.length; index++) {
+//     if (element.classList.contains('hide')) {
+//       elements[i].classList.remove('hide');
+//     }
+//   }
+// };
