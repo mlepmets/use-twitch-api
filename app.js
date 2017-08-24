@@ -5,9 +5,9 @@ const streamsAPI =
   'https://cors-anywhere.herokuapp.com/https://wind-bow.gomix.me/twitch-api/streams/';
 
 const container = document.querySelector('.main');
-let onlineFilter = document.querySelector('.on-button');
-let offlineFilter = document.querySelector('.off-button');
-let allFilter = document.querySelector('.all-button');
+let onlineFilter = document.querySelector('.on');
+let offlineFilter = document.querySelector('.off');
+let allFilter = document.querySelector('.all');
 
 function get(url) {
   return new Promise(function(resolve, reject) {
@@ -24,6 +24,7 @@ function get(url) {
     xhr.send();
   });
 }
+
 function hideElements(elements) {
   for (var i = 0; i < elements.length; i++) {
     if (!elements[i].classList.contains('hide')) {
@@ -38,6 +39,12 @@ function showElements(elements) {
     }
   }
 }
+function toggleElements(elements) {
+  for (i = 0; i < elements.length; i++) {
+    elements[i].classList.toggle('hide');
+  }
+}
+
 users.forEach((value, index, array) => {
   let status = '';
   let name = value;
@@ -73,13 +80,13 @@ offlineUsers = document.getElementsByClassName('offline');
 onlineUsers = document.getElementsByClassName('online');
 
 onlineFilter.addEventListener('click', function() {
-  showElements(document.getElementsByClassName('online'));
-  hideElements(document.getElementsByClassName('offline'));
+  showElements(onlineUsers);
+  hideElements(offlineUsers);
 });
 
 offlineFilter.addEventListener('click', function() {
-  hideElements(onlineUsers);
   showElements(offlineUsers);
+  hideElements(onlineUsers);
 });
 allFilter.addEventListener('click', function() {
   showElements(onlineUsers);
