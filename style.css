@@ -76,9 +76,8 @@ h1 {
 .on-button,
 .off-button,
 .all-button {
-  width: 10px;
-  height: 10px;
-  position: absolute;
+  width: 20px;
+  height: 20px;
   display: block;
 }
 .on-button {
@@ -88,12 +87,12 @@ h1 {
 }
 .off-button {
   left: 5px;
-  top: 20px;
+  top: 25px;
   background-color: #ff4141;
 }
 .all-button {
   left: 5px;
-  top: 35px;
+  top: 45px;
   background-color: lightgray;
 }
 a {

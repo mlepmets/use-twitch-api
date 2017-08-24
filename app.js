@@ -5,9 +5,9 @@ const streamsAPI =
   'https://cors-anywhere.herokuapp.com/https://wind-bow.gomix.me/twitch-api/streams/';
 
 const container = document.querySelector('.main');
-const onlineFilter = document.querySelector('.on-button');
-const offlineFilter = document.querySelector('.off-button');
-const allFilter = document.querySelector('.all-button');
+let onlineFilter = document.querySelector('.on-button');
+let offlineFilter = document.querySelector('.off-button');
+let allFilter = document.querySelector('.all-button');
 
 function get(url) {
   return new Promise(function(resolve, reject) {
@@ -24,7 +24,20 @@ function get(url) {
     xhr.send();
   });
 }
-
+function hideElements(elements) {
+  for (var i = 0; i < elements.length; i++) {
+    if (!elements[i].classList.contains('hide')) {
+      elements[i].classList.add('hide');
+    }
+  }
+}
+function showElements(elements) {
+  for (i = 0; i < elements.length; i++) {
+    if (elements[i].classList.contains('hide')) {
+      elements[i].classList.remove('hide');
+    }
+  }
+}
 users.forEach((value, index, array) => {
   let status = '';
   let name = value;
@@ -46,33 +59,29 @@ users.forEach((value, index, array) => {
       container.innerHTML += `<a href="${url}" class="${status !== 'offline'
         ? 'online'
         : status}">
-    <div class="logo">
+      <div class="logo">
       <img src="${logo}" alt="channel logo">
-    </div>
-    <div>
+      </div>
+      <div>
       <div class="name">${name}</div>
       <div class="status">${status}</div>
-    </div>
-    </a>`;
+      </div>
+      </a>`;
     });
 });
-// online = document.querySelector('.online');
-// offlineFilter.addEventListener('click', () => {
-//   hideElements('online');
-// });
+offlineUsers = document.getElementsByClassName('offline');
+onlineUsers = document.getElementsByClassName('online');
 
-// const hideElements = elements => {
-//   for (index = 0; index < elements.length; index++) {
-//     if (!element.classList.contains('hide')) {
-//       elements[i].classList.add('hide');
-//     }
-//   }
-// };
+onlineFilter.addEventListener('click', function() {
+  showElements(document.getElementsByClassName('online'));
+  hideElements(document.getElementsByClassName('offline'));
+});
 
-// const showElements = elements => {
-//   for (index = 0; index < elements.length; index++) {
-//     if (element.classList.contains('hide')) {
-//       elements[i].classList.remove('hide');
-//     }
-//   }
-// };
+offlineFilter.addEventListener('click', function() {
+  hideElements(onlineUsers);
+  showElements(offlineUsers);
+});
+allFilter.addEventListener('click', function() {
+  showElements(onlineUsers);
+  showElements(offlineUsers);
+});
